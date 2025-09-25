@@ -5,6 +5,10 @@ body
   padding: 0;
 }
 
+main {
+  text-align: center;
+}
+
 header 
 {
   background: tomato;

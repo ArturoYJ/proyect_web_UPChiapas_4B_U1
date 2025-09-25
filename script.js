@@ -1,7 +1,6 @@
-
 if (document.getElementById("categorias")) 
 {
-    fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
+  fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
     .then(respuesta => respuesta.json())
     .then(datos => {
         const contenedor = document.getElementById("categorias");
@@ -23,8 +22,12 @@ if (document.getElementById("categorias"))
     .catch(error => console.error("Error cargando categorías:", error));
 }
 
-if (document.getElementById("listaComidas")) {
 
+
+
+
+
+if (document.getElementById("listaComidas")) {
     const parametros = new URLSearchParams(window.location.search);
     const nombreCategoria = parametros.get("categoria");
 
@@ -48,4 +51,52 @@ if (document.getElementById("listaComidas")) {
         });
     })
     .catch(error => console.error("Error cargando comidas:", error));
+}
+
+
+
+
+
+if (document.getElementById("btnSorpresa")) {
+    const boton = document.getElementById("btnSorpresa");
+    const container = document.getElementById("recetaContainer");
+    const imagen = document.getElementById("imagenReceta");
+    const nombre = document.getElementById("nombreReceta");
+    const ingredientes = document.getElementById("listaIngredientes");
+
+    boton.addEventListener("click", function() {
+
+        fetch("https://www.themealdb.com/api/json/v1/1/random.php")
+            .then(respuesta => respuesta.json())
+            .then(datos => {
+                const receta = datos.meals[0];
+                
+                imagen.src = receta.strMealThumb;
+                imagen.alt = receta.strMeal;
+                nombre.textContent = receta.strMeal;
+                
+                ingredientes.innerHTML = "";
+                
+                for (let i = 1; i <= 20; i++) {
+                    const ingrediente = receta[`strIngredient${i}`];
+                    const medida = receta[`strMeasure${i}`];
+                    
+                    if (ingrediente && ingrediente.trim() !== "") {
+                        const li = document.createElement("li");
+                        li.textContent = `${medida ? medida : ""} ${ingrediente}`.trim();
+                        ingredientes.appendChild(li);
+                    }
+                }
+                
+                container.style.display = "block";
+                
+                boton.textContent = "Otra receta";
+                boton.disabled = false;
+            })
+            .catch(error => {
+                console.error("Error cargando receta:", error);
+                boton.textContent = "intenta de nuevo";
+                boton.disabled = false;
+            });
+    });
 }
