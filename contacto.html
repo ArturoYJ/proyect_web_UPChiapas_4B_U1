@@ -3,29 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacto</title>
+  <title>Receta Sorpresa</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Contacto</h1>
+    <h1>Receta Sorpresa</h1>
     <nav>
       <a href="index.html">Inicio</a>
-      <a href="contacto.html">Contacto</a>
+      <a href="contacto.html">Receta Sorpresa</a>
     </nav>
   </header>
 
   <main>
-    <h2>Formulario de Contacto</h2>
-    <form>
-      <label>Nombre:</label>
-      <input type="text" required>
-      <label>Email:</label>
-      <input type="email" required>
-      <label>Mensaje:</label>
-      <textarea required></textarea>
-      <button type="submit">Enviar</button>
-    </form>
+    <div style="text-align: center; padding: 2rem;">
+      <h2>¡Descubre una receta nueva!</h2>
+      <button id="btnSorpresa" style="font-size: 1.2rem; padding: 15px 30px;">
+        🎲 ¡Sorpréndeme!
+      </button>
+    </div>
+
+    <div id="recetaContainer" style="display: none;">
+      <div class="card" style="max-width: 600px; margin: 0 auto;">
+        <img id="imagenReceta" src="" alt="" style="width: 100%; height: 300px; object-fit: cover;">
+        <div style="padding: 1rem;">
+          <h3 id="nombreReceta"></h3>
+          <h4>Ingredientes:</h4>
+          <ul id="listaIngredientes"></ul>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 
 if (document.getElementById("categorias")) 
 {
-  fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
+    fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
     .then(respuesta => respuesta.json())
     .then(datos => {
         const contenedor = document.getElementById("categorias");
