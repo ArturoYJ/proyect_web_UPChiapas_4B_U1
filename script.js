@@ -13,7 +13,7 @@ if (document.getElementById("categorias"))
             <img src="${categoria.strCategoryThumb}" alt="${categoria.strCategory}">
             <h3>${categoria.strCategory}</h3>
             <p>${categoria.strCategoryDescription.substring(0, 80)}...</p>
-            <a href="detalle.html?categoria=${categoria.strCategory}">Ver más</a>
+            <a href="platillos.html?categoria=${categoria.strCategory}">Ver más</a>
         `;
 
         contenedor.appendChild(tarjeta);
