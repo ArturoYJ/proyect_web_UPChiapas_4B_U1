@@ -1,102 +1,93 @@
-if (document.getElementById("categorias")) 
-{
-  fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-        const contenedor = document.getElementById("categorias");
-        
-        datos.categories.forEach(categoria => {
-        const tarjeta = document.createElement("div");
-        tarjeta.classList.add("card");
 
-        tarjeta.innerHTML = `
-            <img src="${categoria.strCategoryThumb}" alt="${categoria.strCategory}">
-            <h3>${categoria.strCategory}</h3>
-            <p>${categoria.strCategoryDescription.substring(0, 80)}...</p>
-            <a href="platillos.html?categoria=${categoria.strCategory}">Ver más</a>
-        `;
+import player from "./app/player";
+const songs = [
+        {
+            song_name : "Good luck, Babe!",
+            artist_name: "Chappell Roan",
+            song_url: "media\Good luck, Babe!.mp3",
+            caratula: "media/chapell.jpg"
+        },
+        {
+            song_name : "Manchild",
+            artist_name: "Sabrina Carpenter",
+            song_url: "./media/song_2.mp3",
+            caratula: "https://picsum.photos/200"
+        },
+        {
+            song_name : "cancion CHIDA 3",
+            artist_name: "artista 3",
+            song_url: "./media/song_3.mp3",
+            caratula: "https://picsum.photos/200"
+        },
+    ];
 
-        contenedor.appendChild(tarjeta);
-        });
-    })
-    .catch(error => console.error("Error cargando categorías:", error));
+const last = [];
+
+const playlist = createPlaylist(songs.length);
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    audioController.initializaPlayer(createPlaylist(songs, null));
+    console.log(audioController._nextSongs);
+    console.log(audioController._actualSong);
+    loadSong(audioController._actualSong);
+})
+
+function loadSong(i){
+    const title = document.getElementById("title");
+    const artist = document.getElementById("artist");
+
+    media.src = now.song_url;
+    title.innerText = now.song_name;
+    artist.innerText = now.artist_name;
+    song_img.src = now.caratula;
 }
 
+media.addEventListener('loadedmetadata', () => {
+    progress_bar.max = 100;
+    progress_bar.value = 0;
+    if(play_btn.classList.contains("pause")){
+        media.play();
+    }
+});
 
-
-
-
-
-if (document.getElementById("listaComidas")) {
-    const parametros = new URLSearchParams(window.location.search);
-    const nombreCategoria = parametros.get("categoria");
-
-    document.getElementById("tituloCategoria").textContent = nombreCategoria;
-
-    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${nombreCategoria}`)
-    .then(respuesta => respuesta.json())
-    .then(datos => {
-        const contenedor = document.getElementById("listaComidas");
-
-        datos.meals.forEach(comida => {
-        const tarjeta = document.createElement("div");
-        tarjeta.classList.add("card");
-
-        tarjeta.innerHTML = `
-            <img src="${comida.strMealThumb}" alt="${comida.strMeal}">
-            <h3>${comida.strMeal}</h3>
-        `;
-
-        contenedor.appendChild(tarjeta);
-        });
-    })
-    .catch(error => console.error("Error cargando comidas:", error));
+media.ontimeupdate = function updateProgressBar() {
+    const progress_value = (this.currentTime / this.duration) * 100;
+    progress_bar.value = progress_value;
 }
 
+lastest.addEventListener('click', function(){
+    if(!last.length == 0){
+        playlist.push(playingNow);
+        playingNow = last.pop();
+        loadSong(playingNow)
+    }
+});
+forward.addEventListener('click', function(){
+    if(!playlist.length == 0){
+        last.push(playingNow);
+        playingNow = playlist.pop();
+        loadSong(playingNow)
+    }
+});
 
-
-
-
-if (document.getElementById("btnSorpresa")) {
-    const boton = document.getElementById("btnSorpresa");
-    const container = document.getElementById("recetaContainer");
-    const imagen = document.getElementById("imagenReceta");
-    const nombre = document.getElementById("nombreReceta");
-    const ingredientes = document.getElementById("listaIngredientes");
-
-    boton.addEventListener("click", function() {
-
-        fetch("https://www.themealdb.com/api/json/v1/1/random.php")
-            .then(respuesta => respuesta.json())
-            .then(datos => {
-                const receta = datos.meals[0];
-                
-                imagen.src = receta.strMealThumb;
-                imagen.alt = receta.strMeal;
-                nombre.textContent = receta.strMeal;
-                
-                ingredientes.innerHTML = "";
-                
-                for (let i = 1; i <= 20; i++) {
-                    const ingrediente = receta[`strIngredient${i}`];
-                    const medida = receta[`strMeasure${i}`];
-                    
-                    if (ingrediente && ingrediente.trim() !== "") {
-                        const li = document.createElement("li");
-                        li.textContent = `${medida ? medida : ""} ${ingrediente}`.trim();
-                        ingredientes.appendChild(li);
-                    }
-                }
-                
-                container.style.display = "block";
-                
-                boton.textContent = "Otra receta";
-                boton.disabled = false;
-            })
-            .catch(error => {
-                console.error("Error cargando receta:", error);
-                boton.textContent = "intenta de nuevo";
-                boton.disabled = false;
-            });
-    });
+progress_bar.oninput = function() {
+    media.currentTime = (this.value/100) * media.duration;
 }
+
+play_btn.addEventListener("click", playPause);
+
+function playPause(){
+    if(play_btn.classList.contains("pause")){
+        media.pause();
+        play_btn.classList.remove("pause");
+        play_btn.classList.add("play");
+        play_btn.innerText = "Play"
+    }else{
+        media.play();
+        play_btn.classList.remove("play");
+        play_btn.classList.add("pause");
+        play_btn.innerText = "Pause";
+    }
+}
+
