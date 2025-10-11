@@ -1,10 +1,6 @@
-// ui.js - Módulo para crear elementos de interfaz
+// ui.js - funciones para crear las tarjetas y mostrar cosas en pantalla
 
-/**
- * Crea una tarjeta de categoría
- * @param {Object} categoria - Datos de la categoría
- * @returns {HTMLElement} Elemento div con la tarjeta
- */
+// crear tarjeta de categoria
 export function crearTarjetaCategoria(categoria) {
   const tarjeta = document.createElement("div");
   tarjeta.classList.add("card");
@@ -19,11 +15,7 @@ export function crearTarjetaCategoria(categoria) {
   return tarjeta;
 }
 
-/**
- * Crea una tarjeta de platillo
- * @param {Object} comida - Datos del platillo
- * @returns {HTMLElement} Elemento div con la tarjeta
- */
+// crear tarjeta para los platillos
 export function crearTarjetaPlatillo(comida) {
   const tarjeta = document.createElement("div");
   tarjeta.classList.add("card");
@@ -36,17 +28,12 @@ export function crearTarjetaPlatillo(comida) {
   return tarjeta;
 }
 
-/**
- * Renderiza una lista de elementos en un contenedor
- * @param {string} idContenedor - ID del contenedor
- * @param {Array} items - Array de elementos a renderizar
- * @param {Function} crearTarjeta - Función para crear cada tarjeta
- */
+// funcion para mostrar una lista de cosas
 export function renderizarLista(idContenedor, items, crearTarjeta) {
   const contenedor = document.getElementById(idContenedor);
   if (!contenedor) return;
 
-  contenedor.innerHTML = ""; // Limpiar contenido anterior
+  contenedor.innerHTML = ""; 
 
   items.forEach(item => {
     const tarjeta = crearTarjeta(item);
@@ -54,11 +41,7 @@ export function renderizarLista(idContenedor, items, crearTarjeta) {
   });
 }
 
-/**
- * Muestra un mensaje de error en el contenedor
- * @param {string} idContenedor - ID del contenedor
- * @param {string} mensaje - Mensaje a mostrar
- */
+// mostrar error cuando algo sale mal
 export function mostrarError(idContenedor, mensaje) {
   const contenedor = document.getElementById(idContenedor);
   if (!contenedor) return;
@@ -70,10 +53,7 @@ export function mostrarError(idContenedor, mensaje) {
   `;
 }
 
-/**
- * Muestra un indicador de carga
- * @param {string} idContenedor - ID del contenedor
- */
+// mensaje de cargando
 export function mostrarCargando(idContenedor) {
   const contenedor = document.getElementById(idContenedor);
   if (!contenedor) return;
@@ -85,11 +65,8 @@ export function mostrarCargando(idContenedor) {
   `;
 }
 
-/**
- * Extrae ingredientes de una receta
- * @param {Object} receta - Objeto de receta
- * @returns {Array} Array de ingredientes con medidas
- */
+// sacar los ingredientes de la receta
+// la api los guarda raro (strIngredient1, strIngredient2, etc)
 export function extraerIngredientes(receta) {
   const ingredientes = [];
   

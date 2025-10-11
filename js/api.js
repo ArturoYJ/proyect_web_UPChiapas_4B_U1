@@ -1,11 +1,9 @@
-// api.js - Módulo para manejar todas las llamadas a la API
+// api.js - aqui estan las funciones para llamar a la API
+// usamos themealdb que es gratis
 
 const API_BASE_URL = "https://www.themealdb.com/api/json/v1/1";
 
-/**
- * Obtiene todas las categorías de comida
- * @returns {Promise<Object>} Objeto con array de categorías
- */
+// trae todas las categorias de comida
 export async function obtenerCategorias() {
   try {
     const respuesta = await fetch(`${API_BASE_URL}/categories.php`);
@@ -17,11 +15,7 @@ export async function obtenerCategorias() {
   }
 }
 
-/**
- * Obtiene platillos por categoría
- * @param {string} categoria - Nombre de la categoría
- * @returns {Promise<Object>} Objeto con array de platillos
- */
+// obtener comidas por categoria (beef, chicken, etc)
 export async function obtenerPlatillosPorCategoria(categoria) {
   try {
     const respuesta = await fetch(`${API_BASE_URL}/filter.php?c=${categoria}`);
@@ -33,10 +27,7 @@ export async function obtenerPlatillosPorCategoria(categoria) {
   }
 }
 
-/**
- * Obtiene una receta aleatoria
- * @returns {Promise<Object>} Objeto con los datos de la receta
- */
+// funcion para traer una receta random
 export async function obtenerRecetaAleatoria() {
   try {
     const respuesta = await fetch(`${API_BASE_URL}/random.php`);
@@ -48,18 +39,11 @@ export async function obtenerRecetaAleatoria() {
   }
 }
 
-/**
- * Obtiene detalles completos de un platillo por ID
- * @param {string} id - ID del platillo
- * @returns {Promise<Object>} Objeto con detalles del platillo
- */
-export async function obtenerDetallePlatillo(id) {
-  try {
-    const respuesta = await fetch(`${API_BASE_URL}/lookup.php?i=${id}`);
-    if (!respuesta.ok) throw new Error('Error al cargar detalles');
-    return await respuesta.json();
-  } catch (error) {
-    console.error("Error cargando detalles:", error);
-    throw error;
-  }
+// esta la agregue por si despues quiero ver detalles de un platillo
+export function obtenerDetallePlatillo(id) {
+  return fetch(`${API_BASE_URL}/lookup.php?i=${id}`)
+    .then(respuesta => respuesta.json())
+    .catch(error => {
+      console.error("Error:", error);
+    });
 }

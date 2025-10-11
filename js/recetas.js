@@ -1,13 +1,10 @@
-// recetas.js - Lógica específica para recetasSorpresas.html
+// recetas.js - pagina de recetas aleatorias
 
 import { obtenerRecetaAleatoria } from './api.js';
 import { extraerIngredientes } from './ui.js';
 import { elementoExiste, alternarVisibilidad } from './utils.js';
 
-/**
- * Muestra una receta en el contenedor
- * @param {Object} receta - Datos de la receta
- */
+// mostrar la receta en la pagina
 function mostrarReceta(receta) {
   const imagen = document.getElementById("imagenReceta");
   const nombre = document.getElementById("nombreReceta");
@@ -16,12 +13,12 @@ function mostrarReceta(receta) {
 
   if (!imagen || !nombre || !listaIngredientes || !container) return;
 
-  // Establecer imagen y nombre
+  // poner imagen y nombre
   imagen.src = receta.strMealThumb;
   imagen.alt = receta.strMeal;
   nombre.textContent = receta.strMeal;
 
-  // Limpiar y llenar ingredientes
+  // limpiar ingredientes anteriores
   listaIngredientes.innerHTML = "";
   const ingredientes = extraerIngredientes(receta);
 
@@ -31,13 +28,11 @@ function mostrarReceta(receta) {
     listaIngredientes.appendChild(li);
   });
 
-  // Mostrar contenedor
+  // mostrar el contenedor
   alternarVisibilidad("recetaContainer", true);
 }
 
-/**
- * Maneja el clic del botón de receta sorpresa
- */
+// cuando le dan click al boton
 async function manejarClickReceta() {
   const boton = document.getElementById("btnSorpresa");
   
@@ -64,9 +59,7 @@ async function manejarClickReceta() {
   }
 }
 
-/**
- * Inicializa la funcionalidad de recetas sorpresa
- */
+// inicializar el boton
 function inicializarRecetasSorpresa() {
   const boton = document.getElementById("btnSorpresa");
   
@@ -75,7 +68,7 @@ function inicializarRecetasSorpresa() {
   boton.addEventListener("click", manejarClickReceta);
 }
 
-// Inicializar cuando el DOM esté listo
+// cargar todo
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', inicializarRecetasSorpresa);
 } else {

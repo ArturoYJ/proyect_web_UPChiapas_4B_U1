@@ -1,18 +1,16 @@
-// platillos.js - Lógica específica para platillos.html
+// platillos.js - muestra los platillos de una categoria
 
 import { obtenerPlatillosPorCategoria } from './api.js';
 import { crearTarjetaPlatillo, renderizarLista, mostrarError, mostrarCargando } from './ui.js';
 import { obtenerParametroURL, establecerTitulo, elementoExiste } from './utils.js';
 
-/**
- * Inicializa la página de platillos
- */
 async function inicializarPlatillos() {
   const contenedorId = "listaComidas";
   const tituloId = "tituloCategoria";
   
   if (!elementoExiste(contenedorId)) return;
 
+  // sacar la categoria del url
   const categoria = obtenerParametroURL("categoria");
 
   if (!categoria) {
@@ -20,6 +18,7 @@ async function inicializarPlatillos() {
     return;
   }
 
+  // poner el titulo con el nombre de la categoria
   establecerTitulo(tituloId, categoria);
 
   try {
@@ -37,7 +36,7 @@ async function inicializarPlatillos() {
   }
 }
 
-// Inicializar cuando el DOM esté listo
+// inicializar cuando cargue la pagina
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', inicializarPlatillos);
 } else {
